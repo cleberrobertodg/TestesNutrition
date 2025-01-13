@@ -180,12 +180,12 @@ describe('Criação de usuário Nutrition', function() {
   })
 
   it('Cadastra cupom', function(){
-    cy.get('body > div.enc--wrapper > div.page--cupom-sucesso.page-internas > div > div.row.row-btn > div:nth-child(3) > button').click({force:true})
+    cy.get('body > div.enc--wrapper > div.page--cupom-sucesso.page-internas > div > div.row.row-btn > div:nth-child(3) > button').click({force:true})//clica em continuar pelo site
     cy.wait(1000)
     cy.get('input[type="file"]#fileInput').selectFile('Nota Fiscal.jpg', {force:true})//insere imagem do cupom
-    cy.get('#cupo_quantidade_marcas').type('1', {force:true})
-    cy.get('#cupo_valor').type('10,00', {force:true})
-    cy.get('[type="submit"]').contains('Finalizar').click({force:true})//clica em enviar
+    cy.get('#cupo_quantidade_marcas').type('1', {force:true})//registra quantidade de marcas
+    cy.get('#cupo_valor').type('10,00', {force:true})//registra valor do cupom
+    cy.get('[type="submit"]').contains('Finalizar').click({force:true})//clica em finalizar
   })
 
   })
