@@ -32,32 +32,95 @@ describe('Criação de usuário PagMenos', function() {
         cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
         cy.get('#part_cpf').type('abcdefg', {force:true})//escreve string no cpf
         cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
-        cy.get('#part_nome').type('@@@', {force:true}).clear().type('12345', {force:true})//preenche nome com caracteres especiais
+
+        //Testa com nome inválido
+        cy.get('#part_cpf').type(randomCPF, {force:true})//preenche cpf corretamente
+        cy.get('#part_nome').type('@@@', {force:true}).clear({force:true}).type('12345', {force:true})//preenche nome com caracteres especiais
+        //cy.get('#part_sobrenome').type('Test', {force:true})//escreve sobrenome
+        cy.get('#part_data_nascimento').type('12041992', {force:true})
+        cy.get('#vs1__combobox > div.vs__selected-options > input').click({force:true})//Seleciona Campo Gênero
+        cy.get('#vs1__option-0').click({force:true})//Seleciona Gênero Masculino
+        cy.get('#part_telefone1').type(randomPhone, {force:true})
+        cy.get('#email').type(email, {force:true})//escreve email correto
+        cy.get('#email_confirmation').type(email, {force:true})//escreve email de confirmação
+        cy.get('#part_cep').type('41245-075', {force:true})//escreve cep
+        //cy.contains('button', 'Buscar').click({force:true})//clica em buscar cep
+        Cypress.on('uncaught:exception', (err, runnable) => {
+          // returning false here prevents Cypress from
+          // failing the test
+          return false
+        })
+        cy.wait(3000)
+        //cy.get('#part_numero').type('100', {force:true})//escreve número da casa
+        cy.get('#password').type('Senha123', {force:true})//digita senha 
+        Cypress.on('uncaught:exception', (err, runnable) => {
+          // returning false here prevents Cypress from
+          // failing the test
+          return false
+        })
+        cy.get('#password_confirmation').type('Senha123', {force:true})//digita confirmação senha
+        cy.wait(500)
+        cy.get('#part_regulamento').check({force:true})//aceite de termos
+       //cy.get('#part_regulamento_promocao').check({force:true})//aceite política de privacidade
+        cy.get('#vs2__combobox > div.vs__selected-options > input').click({force:true})//clica no ícone de como ficou sabendo
+        cy.get('#vs2__option-5').click({force:true})//clica no ícone de como ficou sabendo, opção Grupo de Promoção
+        cy.get('[type="submit"]').contains('Enviar').click({force:true})//clica em enviar
         cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
-        cy.get('#part_data_nascimento').type('@@@', {force:true}).clear().type('acbkh', {force:true}).clear().type('01011000', {force:true}).clear().type('31313500', {force:true})//escreve datas de nascimento inválidas
+
+
+        // Testa preenchimento de nascimento inválido
+        cy.get('#part_nome').clear({force:true}).type('Cleber Cypress', {force:true})//escreve nome
+        cy.get('#part_data_nascimento').clear({force:true}).type('@@@', {force:true}).clear().type('acbkh', {force:true}).clear().type('01011000', {force:true}).clear().type('31313500', {force:true})//escreve datas de nascimento inválidas
+        cy.get('[type="submit"]').contains('Enviar').click({force:true})//clica em enviar
         cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
-        cy.get('#part_telefone1').type('@@@', {force:true}).clear().type('asdcgg', {force:true})
+
+
+        //Testa telefone inválido
+        cy.get('#part_data_nascimento').clear({force:true}).type('12041992', {force:true})
+        cy.get('#part_telefone1').clear({force:true}).type('@@@', {force:true}).clear().type('asdcgg', {force:true})
+        cy.get('[type="submit"]').contains('Enviar').click({force:true})//clica em enviar
         cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
-        cy.get('#email').type('@@@', {force:true}).clear().type('12345', {force:true}).clear().type('cleber.com@email', {force:true})
+
+        //Testa email inválido
+        cy.get('#part_telefone1').type(randomPhone, {force:true})
+        cy.get('#email').clear({force:true}).type('@@@', {force:true}).clear().type('12345', {force:true}).clear().type('cleber.com@email', {force:true})
+        cy.get('[type="submit"]').contains('Enviar').click({force:true})//clica em enviar
         cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
-        cy.get('#email_confirmation').type('@@@', {force:true}).clear().type('12345', {force:true}).clear().type('cleber@email', {force:true})
+
+
+        //Testa email diferente do email cadastrado no campo anterior
+        cy.get('#email').clear({force:true}).type(email, {force:true})//escreve email correto
+        cy.get('#email_confirmation').clear({force:true}).type('@@@', {force:true}).clear().type('12345', {force:true}).clear().type('cleber@email', {force:true})
+        cy.get('[type="submit"]').contains('Enviar').click({force:true})//clica em enviar
         cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
-        cy.get('#part_cep').type('wergaefgaeg', {force:true})//escreve cep inválido com strings
+        
+        
+        //Testa cep inválido
+        cy.get('#email_confirmation').clear({force:true}).type(email, {force:true})//escreve email de confirmação
+        cy.get('#part_cep').clear({force:true}).type('wergaefgaeg', {force:true})//escreve cep inválido com strings
         cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
-        cy.get('#part_cep').type('99999999', {force:true})//escreve cep inválido somente com 9999
-        cy.contains('button', 'Buscar').click({force:true})//clica em buscar cep
+        cy.get('#part_cep').type('@@@@@@@', {force:true})//escreve cep inválido somente com 9999
+        //cy.contains('button', 'Buscar').click({force:true})//clica em buscar cep
         cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
+
+
         cy.wait(500)
       /*  cy.get('#part_endereco').clear({force:true}).type('@@@@', {force:true})//escreve nome de rua inválido
         cy.get('#part_numero').type('asdfghj', {force:true})//escreve número inválido com strings
         cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento  */
-        cy.get('#password').type('asdfghj', {force:true})//digita senha fora do padrão
+
+        //Testa senha inválida
+        cy.get('#part_cep').type('41245-075', {force:true})//escreve cep
+        cy.get('#password').clear({force:true}).type('asdfghj', {force:true})//digita senha fora do padrão
         Cypress.on('uncaught:exception', (err, runnable) => {
           // returning false here prevents Cypress from
           // failing the test
           return false
         })
         cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
+
+
+        cy.get('#password').clear({force:true}).type('Senha123', {force:true})//digita senha 
         cy.get('#password_confirmation').type('1223456', {force:true})//digita senha fora do padrão
         cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
         cy.wait(500)
@@ -90,7 +153,7 @@ describe('Criação de usuário PagMenos', function() {
       cy.get('#email').type(email, {force:true})//escreve email correto
       cy.get('#email_confirmation').type(email, {force:true})//escreve email de confirmação
       cy.get('#part_cep').type('41245-075', {force:true})//escreve cep
-      cy.contains('button', 'Buscar').click({force:true})//clica em buscar cep
+     // cy.contains('button', 'Buscar').click({force:true})//clica em buscar cep
       Cypress.on('uncaught:exception', (err, runnable) => {
         // returning false here prevents Cypress from
         // failing the test
