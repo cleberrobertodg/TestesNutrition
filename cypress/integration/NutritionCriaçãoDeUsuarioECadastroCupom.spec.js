@@ -3,18 +3,18 @@ import { randomCPF, email, randomPhone } from '../support/variables';
 
 
 
-describe('Criação de usuário PagMenos', function() {
+describe('Criação de usuário Nutrition', function() {
 
  
 
-    beforeEach(() => {
-        cy.visit('https://homologh.encinterativa.com.br/nutrition2025/home/')
-        cy.title().should('be.equal', 'Sabor em Família')
-      })
+    
     
     
 
     it('Valida se o form aceita campos preenchidos em formato inválido, e se retorna mensagens de erro', function(){
+
+      cy.visit('https://homologh.encinterativa.com.br/nutrition2025/home/')
+        cy.title().should('be.equal', 'Sabor em Família')
 
      cy.log('Valida se o form aceita campos preenchidos em formato inválido, e se retorna mensagens de erro')
 
@@ -134,7 +134,8 @@ describe('Criação de usuário PagMenos', function() {
     
 
     it('Inscreve corretamente o participante', function(){
-
+      cy.visit('https://homologh.encinterativa.com.br/nutrition2025/home/')
+      cy.title().should('be.equal', 'Sabor em Família')
 
       cy.get('.btn-cookies-unilever').click()//aceita os cookies
       cy.get('#nav-collapse > ul > div > div > ul > li > a').click()//clica em participe
@@ -174,15 +175,17 @@ describe('Criação de usuário PagMenos', function() {
       cy.get('#vs2__combobox > div.vs__selected-options > input').click({force:true})//clica no ícone de como ficou sabendo
       cy.get('#vs2__option-5').click({force:true})//clica no ícone de como ficou sabendo, opção Grupo de Promoção
       cy.get('[type="submit"]').contains('Enviar').click({force:true})//clica em enviar
-      //cy.wait(10000)
+      cy.wait(1000)
+      
+  })
+
+  it('Cadastra cupom', function(){
+    cy.get('body > div.enc--wrapper > div.page--cupom-sucesso.page-internas > div > div.row.row-btn > div:nth-child(3) > button').click({force:true})
+    cy.wait(1000)
+    cy.get('input[type="file"]#fileInput').selectFile('Nota Fiscal.jpg', {force:true})//insere imagem do cupom
+    cy.get('#cupo_quantidade_marcas').type('1', {force:true})
+    cy.get('#cupo_valor').type('10,00', {force:true})
+    cy.get('[type="submit"]').contains('Finalizar').click({force:true})//clica em enviar
   })
 
   })
-
-  
-
-  export const cpfCadastrado = randomCPF
-
-
-
-  
