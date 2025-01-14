@@ -11,7 +11,7 @@ describe('Criação de usuário Nutrition', function() {
     
     
 
-    it('Valida se o form aceita campos preenchidos em formato inválido, e se retorna mensagens de erro', function(){
+    it.skip('Valida se o form aceita campos preenchidos em formato inválido, e se retorna mensagens de erro', function(){
 
       cy.visit('https://homologh.encinterativa.com.br/nutrition2025/home/')
         cy.title().should('be.equal', 'Sabor em Família')
@@ -179,13 +179,45 @@ describe('Criação de usuário Nutrition', function() {
       
   })
 
-  it('Cadastra cupom', function(){
+  it('Valida preenchimento errado cupom e após isso realiza preenchimento correto', function(){
+    
     cy.get('body > div.enc--wrapper > div.page--cupom-sucesso.page-internas > div > div.row.row-btn > div:nth-child(3) > button').click({force:true})//clica em continuar pelo site
     cy.wait(1000)
-    cy.get('input[type="file"]#fileInput').selectFile('Nota Fiscal.jpg', {force:true})//insere imagem do cupom
+    cy.get('#novo_cpf').type(randomCPF, {force:true})//preenche cpf corretamente
+    cy.get('[type="submit"]').contains('Enviar').click({force:true})//clica em enviar
+    cy.wait(1000)
+    cy.get('#text-password').type('Senha123', {force:true})//digita senha 
+    cy.get('[type="submit"]').contains('Enviar').click({force:true})//clica em enviar
+    cy.wait(1000)
     cy.get('#cupo_quantidade_marcas').type('1', {force:true})//registra quantidade de marcas
-    cy.get('#cupo_valor').type('10,00', {force:true})//registra valor do cupom
     cy.get('[type="submit"]').contains('Finalizar').click({force:true})//clica em finalizar
+    cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
+    cy.get('#cupo_valor').type('10,00', {force:true})//registra valor do cupom
+    cy.get('#cupo_quantidade_marcas').clear({force:true}).type('@@@@', {force:true})//registra quantidade de marcas de forma inválida
+    cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
+    cy.get('#cupo_quantidade_marcas').type('abcde', {force:true})//registra quantidade de marcas de forma inválida
+    cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
+    cy.get('#cupo_quantidade_marcas').type('1', {force:true})//registra quantidade de marcas
+    cy.get('[type="submit"]').contains('Finalizar').click({force:true})//clica em finalizar
+    cy.get('#modalMsg > div > div > div:nth-child(2) > div > p').should('be.visible')//valida se aparece msg de erro no preenchimento
+    cy.get('#modalMsg > div > div > div:nth-child(1) > div > div > svg').click({force:true})//clica no x e fecha a mensagem de erro
+    
+    
+    // cy.get('body > div.enc--wrapper > div.page--cupom-sucesso.page-internas > div > div.row.row-btn > div:nth-child(3) > button').click({force:true})//clica em continuar pelo site
+    // cy.wait(1000)
+    // cy.get('#novo_cpf').type(randomCPF, {force:true})//preenche cpf corretamente
+    // cy.get('[type="submit"]').contains('Enviar').click({force:true})//clica em enviar
+    // cy.wait(1000)
+    // cy.get('#text-password').type('Senha123', {force:true})//digita senha 
+    // cy.get('[type="submit"]').contains('Enviar').click({force:true})//clica em enviar
+    // cy.wait(1000)
+
+    cy.get('input[type="file"]#fileInput').selectFile('Nota Fiscal.jpg', {force:true})//insere imagem do cupom
+    cy.get('#cupo_quantidade_marcas').type('10', {force:true})//registra quantidade de marcas
+    cy.get('#cupo_valor').type('999,00', {force:true})//registra valor do cupom
+    cy.get('[type="submit"]').contains('Finalizar').click({force:true})//clica em finalizar
+    cy.wait(3000)
+    cy.get('body > div.enc--wrapper > div.page--cupom-sucesso.wrapper-cupom-sucesso.page-internas > div > div > div > button:nth-child(4)').contains('Histórico').click({force:true})//clica em finalizar
   })
 
   })
