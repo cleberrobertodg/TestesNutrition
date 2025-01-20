@@ -11,7 +11,7 @@ describe('Criação de usuário Nutrition', function() {
     
     
 
-    it.skip('Valida se o form aceita campos preenchidos em formato inválido, e se retorna mensagens de erro', function(){
+    it('Valida se o form aceita campos preenchidos em formato inválido, e se retorna mensagens de erro', function(){
 
       cy.visit('https://homologh.encinterativa.com.br/nutrition2025/home/')
         cy.title().should('be.equal', 'Sabor em Família')
@@ -145,7 +145,7 @@ describe('Criação de usuário Nutrition', function() {
 
       //inicia o preenchimento do form
 
-      cy.get('#part_nome').type('Cleber Cypress', {force:true})//escreve nome
+      cy.get('#part_nome').type('Cypress Auto', {force:true})//escreve nome
       //cy.get('#part_sobrenome').type('Test', {force:true})//escreve sobrenome
       cy.get('#part_data_nascimento').type('12041992', {force:true})
       cy.get('#vs1__combobox > div.vs__selected-options > input').click({force:true})//Seleciona Campo Gênero
@@ -156,16 +156,14 @@ describe('Criação de usuário Nutrition', function() {
       cy.get('#part_cep').type('41245-075', {force:true})//escreve cep
      // cy.contains('button', 'Buscar').click({force:true})//clica em buscar cep
       Cypress.on('uncaught:exception', (err, runnable) => {
-        // returning false here prevents Cypress from
-        // failing the test
+        // returning false here prevents Cypress from failing the test
         return false
       })
       cy.wait(3000)
       //cy.get('#part_numero').type('100', {force:true})//escreve número da casa
       cy.get('#password').type('Senha123', {force:true})//digita senha 
       Cypress.on('uncaught:exception', (err, runnable) => {
-        // returning false here prevents Cypress from
-        // failing the test
+        // returning false here prevents Cypress from failing the test
         return false
       })
       cy.get('#password_confirmation').type('Senha123', {force:true})//digita confirmação senha
@@ -189,10 +187,10 @@ describe('Criação de usuário Nutrition', function() {
     cy.get('#text-password').type('Senha123', {force:true})//digita senha 
     cy.get('[type="submit"]').contains('Enviar').click({force:true})//clica em enviar
     cy.wait(1000)
-    cy.get('#cupo_quantidade_marcas').type('1', {force:true})//registra quantidade de marcas
+    cy.get('#cupo_quantidade_marcas').type('7', {force:true})//registra quantidade de marcas
     cy.get('[type="submit"]').contains('Finalizar').click({force:true})//clica em finalizar
     cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
-    cy.get('#cupo_valor').type('10,00', {force:true})//registra valor do cupom
+    cy.get('#cupo_valor').type('100,00', {force:true})//registra valor do cupom
     cy.get('#cupo_quantidade_marcas').clear({force:true}).type('@@@@', {force:true})//registra quantidade de marcas de forma inválida
     cy.get('.error-form > span').should('be.visible')//valida se aparece msg de erro no preenchimento
     cy.get('#cupo_quantidade_marcas').type('abcde', {force:true})//registra quantidade de marcas de forma inválida
@@ -213,8 +211,8 @@ describe('Criação de usuário Nutrition', function() {
     // cy.wait(1000)
 
     cy.get('input[type="file"]#fileInput').selectFile('Nota Fiscal.jpg', {force:true})//insere imagem do cupom
-    cy.get('#cupo_quantidade_marcas').type('10', {force:true})//registra quantidade de marcas
-    cy.get('#cupo_valor').type('999,00', {force:true})//registra valor do cupom
+    cy.get('#cupo_quantidade_marcas').type('7', {force:true})//registra quantidade de marcas
+    cy.get('#cupo_valor').type('700,00', {force:true})//registra valor do cupom
     cy.get('[type="submit"]').contains('Finalizar').click({force:true})//clica em finalizar
     cy.wait(3000)
     cy.get('body > div.enc--wrapper > div.page--cupom-sucesso.wrapper-cupom-sucesso.page-internas > div > div > div > button:nth-child(4)').contains('Histórico').click({force:true})//clica em finalizar
