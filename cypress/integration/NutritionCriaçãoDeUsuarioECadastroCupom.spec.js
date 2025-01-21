@@ -14,7 +14,7 @@ describe('Criação de usuário Nutrition', function() {
     it('Valida se o form aceita campos preenchidos em formato inválido, e se retorna mensagens de erro', function(){
 
       cy.visit('https://homologh.encinterativa.com.br/nutrition2025/home/')
-        cy.title().should('be.equal', 'Sabor em Família')
+        cy.title().should('be.equal', 'Promoção Sabor em Família Unilever')
 
      cy.log('Valida se o form aceita campos preenchidos em formato inválido, e se retorna mensagens de erro')
 
